@@ -1,4 +1,5 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,17 +29,14 @@ void main()async{
   );
 }
 
-get_shaerd()async{
-  SharedPreferences preferences=await SharedPreferences.getInstance();
-  preferences.getBool("isDark()");
-  print("----------------");
-}
+
 class MyApp extends StatelessWidget {
 
-
+late AppConfigProvider provider;
   @override
   Widget build(BuildContext context) {
-    var provider=Provider.of<AppConfigProvider>(context);
+    provider=Provider.of<AppConfigProvider>(context);
+    initSharedPrefs();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: Login.routeName ,
@@ -58,4 +56,19 @@ class MyApp extends StatelessWidget {
       locale: Locale(provider.appLanguage),
     );
   }
+initSharedPrefs()async{
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  String lang=prefs.getString('lang')??'en';
+
+  String theme=prefs.getString('theme')??'light';
+  provider.changeLanguage(lang);
+  if(theme=='light')
+  {
+    provider.changeThemeMode(ThemeMode.light);
+  }
+  else
+  {
+    provider.changeThemeMode(ThemeMode.dark);
+  }
+}
 }

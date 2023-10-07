@@ -11,20 +11,25 @@ String appLanguage='en';
 ThemeMode appTheme=ThemeMode.dark;
 
 
-void changeLanguage(String newLanguage){
+Future<void> changeLanguage(String newLanguage) async {
   if(appLanguage==newLanguage){
     return ;
   }
   appLanguage=newLanguage;
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('lang', newLanguage);
+
   notifyListeners();
 }
 
-void changeThemeMode(ThemeMode newMode){
+Future<void> changeThemeMode(ThemeMode newMode) async {
 
   if(appTheme==newMode){
     return ;
   }
   appTheme =newMode;
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  await prefs.setString('theme', newMode==ThemeMode.light?'light':'dark');
   notifyListeners();
 }
 bool isDark(){
