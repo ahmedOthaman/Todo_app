@@ -12,9 +12,15 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../provider/auth_provider.dart';
-class TaskWidget extends StatelessWidget {
+class TaskWidget extends StatefulWidget {
   Task task ;
   TaskWidget({required this.task});
+
+  @override
+  State<TaskWidget> createState() => _TaskWidgetState();
+}
+
+class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
     var listprovider=Provider.of<ListProvider>(context);
@@ -31,7 +37,7 @@ class TaskWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
               onPressed: (context) async {
                 var authprovider=Provider.of<AuthProvider>(context,listen: false);
-              await  FirebaseUtils.deleteTaskFromFireStore(task,authprovider.currentUser!.id!).
+              await  FirebaseUtils.deleteTaskFromFireStore(widget.task,authprovider.currentUser!.id!).
                 timeout(
                   Duration(milliseconds: 500),onTimeout: (){
                   //  print('==========================');
@@ -51,9 +57,9 @@ class TaskWidget extends StatelessWidget {
           onTap: (){
             Navigator.of(context).pushNamed(EditTask.routeName,
             arguments:Task(
-              title:task.title,
-             description: task.description,
-             dateTime: task.dateTime,
+              title:widget.task.title,
+             description: widget.task.description,
+             dateTime: widget.task.dateTime,
     ),
 
             );
@@ -74,7 +80,7 @@ class TaskWidget extends StatelessWidget {
                     horizontal: 21,
                     vertical: 7,
                   ),
-                  color: MyTheme.primarylight,
+                  color:widget.task.isDone!?MyTheme.greyColor:  Theme.of(context).primaryColor,,
                   width: 4,
                   height: 80,
                 ),
@@ -82,15 +88,15 @@ class TaskWidget extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Text( task.title??'',
+                      Text( widget.task.title??'',
                        semanticsLabel: provider.appLanguage=='en'?
                         AppLocalizations.of(context)!.add_new_task
                         :AppLocalizations.of(context)!.add_new_task
                        , style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                              color: MyTheme.primarylight,
+                              color:widget.task.isDone!?MyTheme.greyColor:  Theme.of(context).primaryColor,
                             ),
                       ),
-                      Text(task.description??'',
+                      Text(widget.task.description??'',
                       semanticsLabel: provider.appLanguage=='en'?
                       AppLocalizations.of(context)!.enter_task_decribtions
                           :AppLocalizations.of(context)!.enter_task_decribtions,
@@ -99,17 +105,26 @@ class TaskWidget extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  width: 69,
-                  height: 34,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: MyTheme.primarylight,
-                  ),
-                  child: Icon(
-                    Icons.check,
-                    size: 35,
-                    color: MyTheme.whiteColor,
+                InkWell(
+                  onTap: (){
+                    widget.task.isDone=!widget.task.isDone!;
+                    setState(() {
+
+                    });
+                  },
+                  child:widget.task.isDone! ?Text('isDone!',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 22,color: MyTheme.greyColor),):
+                  Container(
+                    width: 69,
+                    height: 34,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: MyTheme.primarylight,
+                    ),
+                    child: Icon(
+                      Icons.check,
+                      size: 35,
+                      color: MyTheme.whiteColor,
+                    ),
                   ),
                 ),
               ],

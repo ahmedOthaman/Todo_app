@@ -45,7 +45,7 @@ late AppConfigProvider provider;
         HomeScreen.routeName:(context)=>HomeScreen(),
         EditTask.routeName:(context)=>EditTask(),
         Login.routeName:(context)=>Login(),
-        Register.routeName:(context)=>Register(),
+        RegisterScreen.routeName:(context)=>RegisterScreen(),
 
       },
       theme: MyTheme.lightTheme,
