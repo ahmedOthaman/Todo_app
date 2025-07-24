@@ -1,0 +1,22 @@
+{
+  "app_title": "عمل قائمة",
+  "task": "القائمة",
+  "settings": "الاعدادات",
+  "language": "اللغة",
+  "theme": "النمط",
+  "add_new_task": "اضافة مهمة جديدة",
+  "enter_your_task": "ادخل المهمة",
+  "enter_task_decribtions": "صف المهمة",
+  "select_date": "اختر التاريخ",
+  "add": "اضافة",
+  "english": "الانجليزية",
+  "arabic": "العربية",
+  "delete": "الحذف",
+  "edit_task": "تعديل المهمة",
+  "select_time":"اختر الوقت",
+  "light": "مضيء",
+  "dark": "ليلي",
+  "this_is_title": "العنوان",
+  "task_details": "التفاصيل",
+   "save_change": "حفظ التغيرات"
+}
